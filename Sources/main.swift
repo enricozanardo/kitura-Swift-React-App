@@ -36,6 +36,15 @@ router.get("/users") {
 }
 
 
+router.post("/users") {
+    request, response, next in
+    //TODO Send sample users 
+
+    response.status(.OK)
+    next()
+}
+
+
 
 // Handle HTTP GET requests to /
 // router.get("/") {
