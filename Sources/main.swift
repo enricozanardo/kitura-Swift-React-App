@@ -1,5 +1,6 @@
 import Kitura
 import HeliumLogger
+import SwiftyJSON
 
 // Initialize HeliumLogger
 HeliumLogger.use()
@@ -9,6 +10,32 @@ let router = Router()
 
 // Allow for serving up static files found in the public directory
 router.all("/", middleware: StaticFileServer(path: "./public/public"))
+
+let user1: [String: String] = [
+    "id" : "1zzz",
+    "fistName" : "Enrico"
+]
+
+let user2: [String: String] = [
+    "id" : "2yyy",
+    "fistName" : "Michela"
+]
+
+let user3: [String: String] = [
+    "id" : "3xxx",
+    "fistName" : "Raffaele"
+]
+
+var users = [user1, user2, user3]
+
+
+router.get("/users") {
+    request, response, next in
+    response.send(json: JSON(users))
+    next()
+}
+
+
 
 // Handle HTTP GET requests to /
 // router.get("/") {
