@@ -8,7 +8,7 @@ HeliumLogger.use()
 let router = Router()
 
 // Allow for serving up static files found in the public directory
-router.all("/", middleware: StaticFileServer(path: "./public"))
+router.all("/", middleware: StaticFileServer(path: "./public/public"))
 
 // Handle HTTP GET requests to /
 // router.get("/") {
