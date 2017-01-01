@@ -26,6 +26,11 @@ let user3: [String: String] = [
     "fistName" : "Raffaele"
 ]
 
+let user4: [String: String] = [
+    "id" : "354x",
+    "fistName" : "Gino"
+]
+
 var users = [user1, user2, user3]
 
 
@@ -35,16 +40,19 @@ router.get("/users") {
     next()
 }
 
-
 router.post("/users") {
     request, response, next in
-    //TODO Send sample users 
+
+    let user5: [String: String] = [
+        "id" : "5xrx",
+        "fistName" : "Raviolo"
+    ]
+    
+    users.append(user5)
 
     response.status(.OK)
     next()
 }
-
-
 
 // Handle HTTP GET requests to /
 // router.get("/") {
