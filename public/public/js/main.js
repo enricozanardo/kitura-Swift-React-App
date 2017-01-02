@@ -27740,7 +27740,7 @@ var List = React.createClass({
 
 module.exports = List;
 
-},{"../reflux/actions.jsx":287,"../reflux/users-store.jsx":288,"./ListItem.jsx":283,"React":25,"reflux":274}],283:[function(require,module,exports){
+},{"../reflux/actions.jsx":289,"../reflux/users-store.jsx":290,"./ListItem.jsx":283,"React":25,"reflux":274}],283:[function(require,module,exports){
 var React = require('react');
 var ListItem = React.createClass({
     displayName: 'ListItem',
@@ -27800,21 +27800,137 @@ var Page2 = React.createClass({
 module.exports = Page2;
 
 },{"react":256}],286:[function(require,module,exports){
+var React = require('React');
+var NavItem = require('./NavItem.jsx');
+
+var NavBar = React.createClass({
+  displayName: 'NavBar',
+
+  render: function () {
+
+    var navStyle = {
+      WebkitBoxShadow: "0 0 4px rgba(0,0,0,0.4)",
+      MozBoxShadow: "0 0 4px rgba(0,0,0,0.4)",
+      boxShadow: "0 0 4px rgba(0,0,0,0.4)",
+      borderRadius: 0
+    };
+
+    var titleStyle = {};
+    var linkStyle = {};
+
+    if (this.props.bgColor) {
+      navStyle.background = this.props.bgColor;
+    }
+
+    if (this.props.titleColor) {
+      titleStyle.color = this.props.titleColor;
+    }
+
+    if (this.props.linkColor) {
+      linkStyle.color = this.props.linkColor;
+    }
+
+    var createLinkItem = function (item, index) {
+      return React.createElement(NavItem, { key: item.title + index, href: item.href, title: item.title, passStyle: linkStyle });
+    };
+
+    return React.createElement(
+      'div',
+      null,
+      React.createElement(
+        'nav',
+        { style: navStyle, className: 'navbar navbar-default' },
+        React.createElement(
+          'div',
+          { className: 'navbar-header' },
+          React.createElement(
+            'button',
+            { type: 'button', className: 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#my-nav-collapse' },
+            React.createElement('span', { className: 'icon-bar' }),
+            React.createElement('span', { className: 'icon-bar' }),
+            React.createElement('span', { className: 'icon-bar' })
+          ),
+          React.createElement(
+            'a',
+            { style: titleStyle, className: 'navbar-brand', href: '#' },
+            'Web App'
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'collapse navbar-collapse', id: 'my-nav-collapse' },
+          React.createElement(
+            'ul',
+            { className: 'nav navbar-nav' },
+            this.props.navData.map(createLinkItem)
+          )
+        )
+      )
+    );
+  }
+});
+
+module.exports = NavBar;
+
+},{"./NavItem.jsx":287,"React":25}],287:[function(require,module,exports){
+var React = require('react');
+
+var NavItem = React.createClass({
+  displayName: "NavItem",
+
+  getInitialState: function () {
+    return { hover: false };
+  },
+  mouseOver: function (e) {
+    this.setState({ hover: true });
+  },
+  mouseOut: function (e) {
+    this.setState({ hover: false });
+  },
+  render: function () {
+    return React.createElement(
+      "li",
+      { className: this.state.hover ? "active" : "", onMouseOver: this.mouseOver, onMouseOut: this.mouseOut },
+      React.createElement(
+        "a",
+        { href: this.props.href, style: this.props.passStyle },
+        this.props.title
+      )
+    );
+  }
+});
+
+module.exports = NavItem;
+
+},{"react":256}],288:[function(require,module,exports){
 var React = require('react');
 var ReactDOM = require('react-dom');
 //local components
 var Routes = require('./Routes.jsx');
+var NavBar = require('./components/nav/NavBar.jsx');
+
+var navLinks = [{
+  "title": "Home",
+  "href": "#"
+}, {
+  "title": "Courses",
+  "href": "#Page1"
+}, {
+  "title": "Blog",
+  "href": "#Page2"
+}];
 
 ReactDOM.render(React.createElement(Routes, null), document.getElementById('main'));
+ReactDOM.render(React.createElement(NavBar, { navData: navLinks, bgColor: '#FFF', titleColor: '#009ee3' }), document.getElementById('nav'));
 
-},{"./Routes.jsx":280,"react":256,"react-dom":72}],287:[function(require,module,exports){
+},{"./Routes.jsx":280,"./components/nav/NavBar.jsx":286,"react":256,"react-dom":72}],289:[function(require,module,exports){
 var Reflux = require('reflux');
 
 var Actions = Reflux.createActions(['getUsers', 'postUser']);
 
 module.exports = Actions;
 
-},{"reflux":274}],288:[function(require,module,exports){
+},{"reflux":274}],290:[function(require,module,exports){
 var HTTP = require('../services/httpservice');
 var Reflux = require('reflux');
 var Actions = require('./actions.jsx');
@@ -27839,7 +27955,7 @@ var UserStore = Reflux.createStore({
 
 module.exports = UserStore;
 
-},{"../services/httpservice":289,"./actions.jsx":287,"reflux":274}],289:[function(require,module,exports){
+},{"../services/httpservice":291,"./actions.jsx":289,"reflux":274}],291:[function(require,module,exports){
 var Fetch = require('whatwg-fetch');
 var baseUrl = 'http://localhost:8090';
 
@@ -27853,4 +27969,4 @@ var service = {
 
 module.exports = service;
 
-},{"whatwg-fetch":279}]},{},[286]);
+},{"whatwg-fetch":279}]},{},[288]);
